@@ -1,1 +1,1 @@
-      & "C:\Program Files (x86)\AnyDesk\AnyDesk.exe" --get-id | Out-File -FilePath "$env:USERPROFILE\Desktop\anydesk_id.txt" -Encoding utf8;
+      & "C:\Program Files (x86)\AnyDesk\AnyDesk.exe" --get-id | Out-File -FilePath "anydesk_id.txt" -Encoding utf8;
